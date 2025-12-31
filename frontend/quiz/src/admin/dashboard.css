@@ -1,0 +1,111 @@
+/* ============ MAIN CONTAINER ============ */
+.dashboard-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: "Poppins", sans-serif;
+}
+
+.dashboard-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #333;
+}
+
+/* ============ CARDS ============ */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card-title {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.dashboard-card-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* ============ TOP USER BOX ============ */
+.top-user-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  line-height: 28px;
+}
+
+.top-user-box h3 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* ============ TABLE ============ */
+.table-container {
+  margin-top: 40px;
+}
+
+.table-container h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.table tbody tr:hover {
+  background: rgba(0, 123, 255, 0.08);
+  transition: 0.2s;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 15px;
+  }
+
+  .dashboard-card-value {
+    font-size: 26px;
+  }
+}

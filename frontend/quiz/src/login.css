@@ -1,0 +1,279 @@
+/* Quiz App Login Form Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #404f7e 0%, #419db4 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  font-weight: 600;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.login label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.login input[type="email"],
+.login input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.login input[type="email"]:focus,
+.login input[type="password"]:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+  transform: translateY(-2px);
+}
+
+.login input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login input[type="submit"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.login input[type="submit"]:hover::before {
+  left: 100%;
+}
+
+.login input[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login input[type="submit"]:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+}
+
+/* Welcome message area */
+.login::after {
+  content: 'Welcome Back!';
+  position: absolute;
+  bottom: -5px;
+  right: 20px;
+  font-size: 0.8em;
+  color: #999;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .login {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+  
+  .login h1 {
+    font-size: 2em;
+    margin-bottom: 25px;
+  }
+  
+  .login input[type="email"],
+  .login input[type="password"] {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .login input[type="submit"] {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .login::after {
+    display: none;
+  }
+}
+
+/* Animation for form appearance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Input placeholder styling */
+.login input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Error state styling */
+.login input.error {
+  border-color: #e53e3e;
+  background-color: #fed7d7;
+}
+
+.login input.error:focus {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+/* Success state styling */
+.login input.success {
+  border-color: #38a169;
+  background-color: #f0fff4;
+}
+
+/* Loading state for submit button */
+.login input[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login input[type="submit"]:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.login input[type="submit"]:disabled::before {
+  display: none;
+}
+
+/* Forgot password link styling (for future use) */
+.login .forgot-password {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login .forgot-password a {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.3s ease;
+}
+
+.login .forgot-password a:hover {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+/* Sign up link styling (for future use) */
+.login .signup-link {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.login .signup-link p {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.login .signup-link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login .signup-link a:hover {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+.login a {
+  display: block;
+  margin-top: 15px;
+  text-align: center;
+  color: #5a4fcf;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.login a:hover {
+  color: #3c34a0;
+  text-decoration: underline;
+}

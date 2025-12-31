@@ -1,0 +1,49 @@
+.review-container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  
+}
+
+.review-question {
+  margin-bottom: 25px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.option {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  background-color: #eee;
+}
+
+.option.correct {
+  background-color: #c8e6c9;
+  font-weight: bold;
+}
+
+.option.incorrect {
+  background-color: #ffcdd2;
+}
+
+.home-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
