@@ -85,39 +85,6 @@ user_answer
 
 Each quiz attempt generates a unique attempt_id. This ID is used to track each submitted answer, calculate the final score, and allow users to review their attempts later.
 
-⚙️ Installation & Setup
-
-Clone the repository
-git clone https://github.com/your-username/quiz-app.git
-
-cd quiz-app
-
-Backend Setup
-cd server
-npm install
-
-Create a .env file with:
-PORT=5000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=quiz_app
-JWT_SECRET=your_secret_key
-
-Start backend:
-npm start
-
-Frontend Setup
-cd client
-npm install
-npm start
-
-Frontend runs on:
-http://localhost:3000
-
-Backend runs on:
-http://localhost:5000
-
 🔄 Quiz Flow
 
 User logs in
