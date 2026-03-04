@@ -1,31 +1,30 @@
 🎯 Web-Based Quiz Application
 
-This project is a full-stack Web-Based Quiz Application built using React, Node.js, Express, and MySQL.
-
-The application allows users to log in, attempt quizzes, submit answers question-by-question, track quiz time, and instantly view their results with performance analysis.
+This project is a full-stack Web-Based Quiz Application built using React, Node.js, Express, and MySQL. The application allows users to log in, attempt quizzes, submit answers question-by-question, track quiz time, and instantly view their results with performance analysis.
 
 🚀 Features
 
-🔐 User Authentication (Login & Registration)
+User Registration and Login
 
-📝 Category & Subcategory-based Quiz System
+Category & Subcategory-Based Quiz System
 
-⏳ Countdown Timer (Auto-submit when time ends)
+Countdown Timer with Auto-Submission
 
-📊 Instant Score Calculation
+Instant Score Calculation
 
-💾 Stores Every Answer with attempt_id
+Stores Every Answer with Attempt ID
 
-📈 Quiz Result Summary (Score, Percentage, Time Taken)
+Quiz Result Summary (Score, Percentage, Time Taken)
 
-🔍 Review Attempted Questions
+Review Attempted Questions
 
-🔑 Token-based Authentication (JWT)
+JWT-Based Authentication
 
-📱 Responsive UI Design
+Responsive Modern UI
 
 🛠️ Tech Stack
-Frontend
+
+Frontend:
 
 React.js
 
@@ -33,9 +32,9 @@ Axios
 
 React Router DOM
 
-CSS / Modern UI Design
+CSS
 
-Backend
+Backend:
 
 Node.js
 
@@ -43,28 +42,31 @@ Express.js
 
 JWT Authentication
 
-Database
+Database:
 
 MySQL
 
 📂 Project Structure
+
 quiz-app/
 │
-├── client/                 # React Frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── App.js
+├── client/ (React Frontend)
+│ ├── src/
+│ ├── components/
+│ ├── pages/
+│ └── App.js
 │
-├── server/                 # Node + Express Backend
-│   ├── routes/
-│   ├── controllers/
-│   ├── middleware/
-│   └── server.js
+├── server/ (Node + Express Backend)
+│ ├── routes/
+│ ├── controllers/
+│ ├── middleware/
+│ └── server.js
 │
 └── database/
-    └── schema.sql
+└── schema.sql
+
 🗄️ Database Design
+
 Main Tables:
 
 users
@@ -81,24 +83,20 @@ attempts
 
 user_answer
 
-Each quiz attempt generates a unique attempt_id, which is stored for:
-
-Tracking each question submission
-
-Calculating final score
-
-Reviewing quiz attempts
+Each quiz attempt generates a unique attempt_id. This ID is used to track each submitted answer, calculate the final score, and allow users to review their attempts later.
 
 ⚙️ Installation & Setup
-1️⃣ Clone the Repository
+
+Clone the repository
 git clone https://github.com/your-username/quiz-app.git
+
 cd quiz-app
-2️⃣ Backend Setup
+
+Backend Setup
 cd server
 npm install
 
-Create a .env file:
-
+Create a .env file with:
 PORT=5000
 DB_HOST=localhost
 DB_USER=root
@@ -106,32 +104,31 @@ DB_PASSWORD=your_password
 DB_NAME=quiz_app
 JWT_SECRET=your_secret_key
 
-Start the backend:
-
+Start backend:
 npm start
-3️⃣ Frontend Setup
+
+Frontend Setup
 cd client
 npm install
 npm start
 
-Frontend will run on:
-
+Frontend runs on:
 http://localhost:3000
 
-Backend will run on:
-
+Backend runs on:
 http://localhost:5000
+
 🔄 Quiz Flow
 
 User logs in
 
-Selects category & subcategory
+Selects category and subcategory
 
-attempt_id is created before quiz starts
+Attempt ID is created before quiz starts
 
 Each question is submitted individually
 
-Timer counts down from 5:00 minutes
+Timer starts (5 minutes countdown)
 
 On completion or timeout:
 
@@ -142,8 +139,8 @@ Time taken is stored
 Result summary is displayed
 
 User can review answers using:
-
 /review/:user_id/:attempt_id
+
 📊 Result Summary Includes
 
 Total Questions
@@ -160,24 +157,24 @@ Performance Message
 
 🔐 Security
 
-Password hashing
+Password Hashing
 
-JWT token authentication
+JWT Token Authentication
 
-Protected quiz routes
+Protected Routes
 
-Middleware validation
+Middleware Validation
 
 📌 Future Enhancements
 
-🏆 Leaderboard
+Leaderboard System
 
-📊 Admin Dashboard
+Admin Dashboard
 
-📈 Performance Analytics Graph
+Performance Analytics
 
-🌙 Dark Mode UI
+Dark Mode
 
-📧 Email Verification
+Email Verification
 
-📱 Mobile App Version
+Mobile App Version
