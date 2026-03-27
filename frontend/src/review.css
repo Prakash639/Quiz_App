@@ -1,0 +1,291 @@
+/* ============================================
+   Review Page
+   ============================================ */
+@import './home.css';
+
+.review-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* Empty */
+.review-empty {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.review-empty-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.review-empty h2 {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* Header */
+.review-header {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: fadeInUp 0.5s ease;
+}
+
+.review-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.review-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.review-summary-badges {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.review-badge {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid var(--border-color);
+}
+
+.review-badge-correct {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.review-badge-wrong {
+  background: rgba(244, 63, 94, 0.12);
+  color: var(--danger);
+  border-color: rgba(244, 63, 94, 0.2);
+}
+
+.review-badge-total {
+  background: rgba(108, 92, 231, 0.12);
+  color: var(--primary-light);
+  border-color: rgba(108, 92, 231, 0.2);
+}
+
+/* Questions */
+.review-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.review-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: var(--transition);
+  animation: fadeInUp 0.5s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+.review-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.review-card-correct::before {
+  background: var(--success);
+}
+
+.review-card-wrong::before {
+  background: var(--danger);
+}
+
+.review-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.review-q-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.review-status {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.review-status.correct {
+  color: var(--success);
+}
+
+.review-status.wrong {
+  color: var(--danger);
+}
+
+.review-q-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Options list */
+.review-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.review-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+}
+
+.review-opt-correct {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+  font-weight: 600;
+}
+
+.review-opt-wrong {
+  background: rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.2);
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.review-opt-text {
+  flex: 1;
+}
+
+/* Answer summary */
+.review-answer-summary {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-answer-summary p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.review-ans-label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.text-success {
+  color: var(--success) !important;
+  font-weight: 600;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+  font-weight: 600;
+}
+
+/* Home button */
+.review-home-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 28px;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-primary);
+  transition: var(--transition);
+}
+
+.review-home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-lg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .review-page {
+    padding: 20px 16px 64px;
+  }
+
+  .review-title {
+    font-size: 1.5rem;
+  }
+
+  .review-card {
+    padding: 20px;
+  }
+}
+
+/* ---------- Light Mode ---------- */
+[data-theme="light"] .review-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .review-card:hover {
+  background: #FAFAFA;
+}
+
+[data-theme="light"] .review-q-num {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .review-opt {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .review-badge-total {
+  color: var(--primary);
+}

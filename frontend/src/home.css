@@ -1,0 +1,320 @@
+/* ============================================
+   Shared Navbar + Home Page
+   ============================================ */
+
+/* ---------- App Layout ---------- */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  animation: slideInDown 0.5s ease;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.nav-brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: var(--shadow-primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link {
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+  letter-spacing: -0.01em;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link-logout {
+  color: var(--danger) !important;
+  opacity: 0.8;
+}
+
+.nav-link-logout:hover {
+  background: rgba(244, 63, 94, 0.1) !important;
+  opacity: 1;
+}
+
+/* ---------- Home Hero ---------- */
+.home-hero {
+  padding: 64px 32px 40px;
+  text-align: center;
+  animation: fadeInUp 0.6s ease;
+}
+
+.home-hero-content {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.home-hero-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ---------- Home Main ---------- */
+.home-main {
+  flex: 1;
+  padding: 0 32px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* ---------- Quiz Card ---------- */
+.quiz-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 28px;
+  transition: var(--transition);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.quiz-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.quiz-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-color-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.quiz-card:hover .quiz-card-accent {
+  transform: scaleX(1);
+}
+
+.quiz-card-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.quiz-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.quiz-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.quiz-card-desc strong {
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.quiz-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: var(--gradient-primary);
+  color: var(--text-on-primary);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: var(--shadow-primary);
+}
+
+.quiz-card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-lg);
+}
+
+/* ---------- Empty State ---------- */
+.home-empty {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--text-secondary);
+}
+
+.home-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+    height: 60px;
+  }
+
+  .nav-brand span {
+    display: none;
+  }
+
+  .nav-link {
+    padding: 6px 12px;
+    font-size: 0.82rem;
+  }
+
+  .home-hero {
+    padding: 40px 20px 24px;
+  }
+
+  .home-hero-title {
+    font-size: 2rem;
+  }
+
+  .home-hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .home-main {
+    padding: 0 16px 48px;
+  }
+
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .quiz-card {
+    padding: 24px 20px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero-title {
+    font-size: 1.65rem;
+  }
+
+  .nav-links {
+    gap: 2px;
+  }
+
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 0.78rem;
+  }
+}
+
+/* ---------- Light Mode ---------- */
+[data-theme="light"] .navbar {
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .nav-link:hover,
+[data-theme="light"] .nav-link.active {
+  background: rgba(108, 92, 231, 0.08);
+}
+
+[data-theme="light"] .quiz-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .quiz-card:hover {
+  background: #FFFFFF;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .quiz-card-emoji {
+  background: rgba(108, 92, 231, 0.06);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .quiz-card-desc strong {
+  color: var(--primary);
+}

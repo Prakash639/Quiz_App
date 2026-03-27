@@ -37,14 +37,20 @@ exports.login = (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
         // ✅ Generate JWT with user ID
-  const token = jwt.sign({ id: user.id }, secret, { expiresIn: "1h" });
+  const token = jwt.sign({ id: user.id, name: user.name }, secret, { expiresIn: "1h" });
 
-
-
-
-   return res.status(200).json({ message: "Login successful", token });
+   return res.status(200).json({ message: "Login successful", token, userName: user.name });
   });
 
+};
+
+exports.getLeaderboard = (req, res) => {
+  User.getLeaderboard((err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch leaderboard data" });
+    }
+    res.json({ results });
+  });
 };
 exports.home = (req, res) => {
 

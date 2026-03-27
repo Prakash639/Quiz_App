@@ -12,6 +12,7 @@ router.get('/ques/:id',controller.ques);
 router.post('/ques/:id',authenticate,controller.submitAnswerAndResult);
 router.get("/profile/:id", authenticate, controller.getUserProfile);
 router.get("/review/:user_id/:attempt_id", controller.review);
+router.get("/leaderboard", controller.getLeaderboard);
 
 
 

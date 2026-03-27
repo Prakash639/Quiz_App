@@ -71,6 +71,23 @@ review: (data, callback) => {
       WHERE u.user_id = ? and u.attempt_id=?
     `;
     db.query(sql,data, callback);
+  },
+
+  getLeaderboard: (callback) => {
+    const sql = `
+      SELECT 
+        u.id, 
+        u.name, 
+        u.email,
+        COUNT(r.id) as completed, 
+        SUM(r.correct_ans) as total_score, 
+        AVG(r.percentage) as avg_percentage
+      FROM users u
+      LEFT JOIN result r ON u.id = r.user_id
+      GROUP BY u.id
+      ORDER BY total_score DESC
+    `;
+    db.query(sql, callback);
   }
 
 };

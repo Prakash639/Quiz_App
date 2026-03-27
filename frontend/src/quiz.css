@@ -1,0 +1,53 @@
+/* ============================================
+   Quiz Subcategory Page  
+   Imports shared home styles for navbar + cards
+   ============================================ */
+@import './home.css';
+
+/* Sub-header with back link */
+.quiz-sub-header {
+  padding: 40px 32px 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  animation: fadeInUp 0.5s ease;
+}
+
+.quiz-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  transition: var(--transition-fast);
+}
+
+.quiz-back-link:hover {
+  color: var(--primary-light);
+}
+
+.quiz-sub-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.quiz-sub-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .quiz-sub-header {
+    padding: 24px 16px 0;
+  }
+
+  .quiz-sub-title {
+    font-size: 1.5rem;
+  }
+}

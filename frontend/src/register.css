@@ -1,0 +1,2 @@
+/* Register page imports shared auth styles from login.css */
+@import './login.css';
