@@ -6,7 +6,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: var(--gradient-bg);
+    background: #FFFFFF;
 }
 
 /* ---------- Navbar ---------- */
@@ -16,15 +16,14 @@
     justify-content: space-between;
     padding: 0 40px;
     height: 80px;
-    background: rgba(15, 14, 23, 0.6);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 2px solid #E5E5E5;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    animation: slideInDown 0.5s ease;
 }
 
 .landing-brand {
@@ -128,46 +127,43 @@
 .landing-hero-content {
     position: relative;
     z-index: 1;
-    max-width: 800px;
-    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 900px;
 }
 
 .landing-badge {
     display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
-    background: rgba(108, 92, 231, 0.15);
-    border: 1px solid rgba(108, 92, 231, 0.3);
+    padding: 10px 20px;
+    background: #E5F6FF;
+    border: 2px solid #84D8FF;
     border-radius: var(--radius-full);
-    color: var(--primary-light);
-    font-size: 0.85rem;
-    font-weight: 600;
+    color: #1CB0F6;
+    font-size: 0.9rem;
+    font-weight: 700;
     margin-bottom: 32px;
     letter-spacing: 0.02em;
 }
 
 .landing-title {
-    font-size: 4.5rem;
+    font-size: 5rem;
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.04em;
-    color: var(--text-primary);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: #4B4B4B;
     margin-bottom: 24px;
 }
 
 .text-gradient {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
 }
 
 .landing-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    max-width: 600px;
+    font-size: 1.5rem;
+    color: #777777;
+    line-height: 1.4;
+    max-width: 650px;
     margin: 0 auto 48px;
+    font-weight: 500;
 }
 
 .landing-cta-group {
@@ -180,32 +176,41 @@
 .landing-cta-primary {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    background: var(--gradient-primary);
+    gap: 12px;
+    padding: 20px 48px;
+    background: var(--primary);
     color: white;
-    border-radius: var(--radius-full);
-    font-size: 1.1rem;
-    font-weight: 700;
-    box-shadow: var(--shadow-primary);
-    transition: var(--transition);
+    border-radius: var(--radius-lg);
+    font-size: 1.25rem;
+    font-weight: 800;
+    border-bottom: 6px solid var(--primary-dark);
+    transition: all 0.1s ease;
 }
 
 .landing-cta-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-primary-lg);
+    filter: brightness(1.05);
+}
+
+.landing-cta-primary:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
 }
 
 .landing-cta-secondary {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    transition: var(--transition-fast);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #AFAFAF;
+    padding: 18px 36px;
+    border: 2px solid #E5E5E5;
+    border-bottom-width: 5px;
+    border-radius: var(--radius-lg);
+    transition: all 0.1s ease;
 }
 
 .landing-cta-secondary:hover {
-    color: var(--text-primary);
-    text-decoration: underline;
+    background: #F7F7F7;
+    border-color: #CECECE;
+    color: #777777;
 }
 
 /* ---------- Features Section ---------- */
@@ -244,17 +249,19 @@
 }
 
 .feature-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-bottom-width: 5px;
     border-radius: var(--radius-xl);
     padding: 40px 32px;
-    transition: var(--transition);
+    transition: all 0.2s ease;
+    text-align: left;
 }
 
 .feature-card:hover {
-    background: var(--bg-card-hover);
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
+    background: #F7F7F7;
+    border-color: #CECECE;
+    transform: translateY(-4px);
 }
 
 .feature-icon {

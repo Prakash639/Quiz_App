@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Target, BarChart, Trophy, TrendingUp, History, Zap, CheckCircle } from "lucide-react";
 import "./profile.css";
 
 function Profile() {
@@ -31,7 +33,7 @@ function Profile() {
     setUserName(storedUserName);
     setLoading(true);
 
-    fetch(`http://localhost:4000/profile/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/profile/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -101,11 +103,24 @@ function Profile() {
   return (
     <>
       {/* Bento Stats Grid */}
-      <div className="bento-grid">
-        <div className="bento-item stat-card primary" style={{ animationDelay: '0.1s' }}>
+      <motion.div 
+        className="bento-grid"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: { transition: { staggerChildren: 0.1 } }
+        }}
+      >
+        <motion.div 
+          className="bento-item stat-card primary"
+          variants={{
+            hidden: { opacity: 0, scale: 0.9 },
+            visible: { opacity: 1, scale: 1 }
+          }}
+        >
           <div className="stat-card-inner">
             <div className="stat-header">
-              <span className="stat-icon">🎯</span>
+              <span className="stat-icon"><Target size={24} /></span>
               <span className="stat-trend positive">+2 this week</span>
             </div>
             <div className="stat-content">
@@ -113,12 +128,18 @@ function Profile() {
               <p className="stat-label">Quizzes Completed</p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bento-item stat-card info" style={{ animationDelay: '0.2s' }}>
+        <motion.div 
+          className="bento-item stat-card info"
+          variants={{
+            hidden: { opacity: 0, scale: 0.9 },
+            visible: { opacity: 1, scale: 1 }
+          }}
+        >
           <div className="stat-card-inner">
             <div className="stat-header">
-              <span className="stat-icon">📊</span>
+              <span className="stat-icon"><BarChart size={24} /></span>
               <span className="stat-trend positive">Above Avg</span>
             </div>
             <div className="stat-content">
@@ -126,12 +147,18 @@ function Profile() {
               <p className="stat-label">Average Score</p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bento-item stat-card success" style={{ animationDelay: '0.3s' }}>
+        <motion.div 
+          className="bento-item stat-card success"
+          variants={{
+            hidden: { opacity: 0, scale: 0.9 },
+            visible: { opacity: 1, scale: 1 }
+          }}
+        >
           <div className="stat-card-inner">
             <div className="stat-header">
-              <span className="stat-icon">🏆</span>
+              <span className="stat-icon"><Trophy size={24} /></span>
               <span className="stat-label-badge">Peak Perf</span>
             </div>
             <div className="stat-content">
@@ -139,24 +166,8 @@ function Profile() {
               <p className="stat-label">Best Performance</p>
             </div>
           </div>
-        </div>
-
-        <div className="bento-item performance-card" style={{ animationDelay: '0.4s' }}>
-          <div className="perf-header">
-            <h3>Rank Status</h3>
-            <span className="rank-badge">{getPerformanceLevel(userStats.averageScore).level}</span>
-          </div>
-          <div className="rank-progress">
-            <div className="rank-info">
-              <span className="rank-icon">{getPerformanceLevel(userStats.averageScore).icon}</span>
-              <p>Keep up the great work! You're in the top 15% of users.</p>
-            </div>
-            <div className="rank-bar-wrap">
-              <div className="rank-bar-fill" style={{ width: `${userStats.averageScore}%` }}></div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Main Section Grid */}
       <div className="dashboard-sections">
@@ -175,11 +186,25 @@ function Profile() {
               <button className="cta-btn-sm" onClick={() => navigate('/home')}>Start Now</button>
             </div>
           ) : (
-            <div className="history-list">
+            <motion.div 
+              className="history-list"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: { transition: { staggerChildren: 0.1 } }
+              }}
+            >
               {results.slice(0, 5).map((result, index) => {
                 const performance = getPerformanceLevel(result.percentage);
                 return (
-                  <div key={index} className="history-item" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>
+                  <motion.div 
+                    key={index} 
+                    className="history-item"
+                    variants={{
+                      hidden: { opacity: 0, x: -20 },
+                      visible: { opacity: 1, x: 0 }
+                    }}
+                  >
                     <div className="h-item-info">
                       <div className="h-item-icon">{getCategoryIcon(result.name)}</div>
                       <div className="h-item-text">
@@ -193,10 +218,10 @@ function Profile() {
                       </div>
                       <p className="score-desc">{performance.level}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           )}
         </section>
 

@@ -20,7 +20,7 @@
 //   const loadDashboard = async () => {
 //     try {
 //       const token = localStorage.getItem("token");
-//       const res = await fetch("http://localhost:4000/admin/dashboard", {
+//       const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/dashboard`, {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
 

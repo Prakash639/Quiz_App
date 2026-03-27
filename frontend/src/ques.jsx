@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Timer, CheckCircle2, XCircle, ChevronRight, Trophy, RotateCcw, Eye } from "lucide-react";
 import "./ques.css";
 
 function Ques() {
@@ -22,7 +24,7 @@ function Ques() {
     localStorage.removeItem("attemptId");
     setAttemptId(null);
 
-    fetch(`http://localhost:4000/ques/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/ques/${id}`)
       .then((res) => res.json())
       .then((data) => setQuestions(data.result))
       .catch((err) => console.error("Fetch error:", err));
@@ -76,7 +78,7 @@ function Ques() {
         body.time_taken = time;
       }
 
-      const res = await fetch(`http://localhost:4000/ques/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/ques/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,80 +138,108 @@ function Ques() {
 
     return (
       <>
-        <div className="result-page">
-          <div className="result-container">
-            {/* Score Ring */}
-            <div className="result-ring-wrapper">
-              <svg className="result-ring" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
-                <circle
-                  cx="60" cy="60" r="54" fill="none"
-                  stroke={performanceMessage.color}
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={circumference}
-                  strokeDashoffset={offset}
-                  className="result-ring-progress"
-                  transform="rotate(-90 60 60)"
-                />
-              </svg>
-              <div className="result-ring-text">
-                <span className="result-ring-pct">{Math.round(percentage)}%</span>
-                <span className="result-ring-label">Score</span>
-              </div>
-            </div>
-
-            <h2 className="result-heading">Quiz Complete!</h2>
-            <p className="result-message" style={{ color: performanceMessage.color }}>
-              {performanceMessage.text}
-            </p>
-
-            {/* Stats */}
-            <div className="result-stats">
-              <div className="result-stat result-stat-correct">
-                <span className="result-stat-num">{score}</span>
-                <span className="result-stat-label">Correct</span>
-              </div>
-              <div className="result-stat result-stat-wrong">
-                <span className="result-stat-num">{wrongCount}</span>
-                <span className="result-stat-label">Wrong</span>
-              </div>
-              <div className="result-stat result-stat-time">
-                <span className="result-stat-num">{formatTime(time)}</span>
-                <span className="result-stat-label">Time</span>
-              </div>
-              <div className="result-stat result-stat-total">
-                <span className="result-stat-num">{questions.length}</span>
-                <span className="result-stat-label">Total</span>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="result-actions">
-              <button className="result-btn result-btn-retry" onClick={() => window.location.reload()}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-                  <path d="M21 3v5h-5" />
-                  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-                  <path d="M3 21v-5h5" />
-                </svg>
-                Retake Quiz
-              </button>
-              {attemptId && (
-                <button
-                  className="result-btn result-btn-review"
-                  onClick={() => navigate(`/review/${user_id}/${attemptId}`)}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                  Review Answers
-                </button>
-              )}
+    return (
+      <div className="result-page">
+        <motion.div 
+          className="result-container"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", damping: 15 }}
+        >
+          {/* Score Ring */}
+          <div className="result-ring-wrapper">
+            <svg className="result-ring" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="54" fill="none" stroke="#E5E5E5" strokeWidth="8" />
+              <motion.circle
+                cx="60" cy="60" r="54" fill="none"
+                stroke={performanceMessage.color}
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                initial={{ strokeDashoffset: circumference }}
+                animate={{ strokeDashoffset: offset }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                transform="rotate(-90 60 60)"
+              />
+            </svg>
+            <div className="result-ring-text">
+              <motion.span 
+                className="result-ring-pct"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                {Math.round(percentage)}%
+              </motion.span>
+              <span className="result-ring-label">Score</span>
             </div>
           </div>
-        </div>
+
+          <motion.h2 
+            className="result-heading"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Quiz Complete!
+          </motion.h2>
+          <motion.p 
+            className="result-message" 
+            style={{ color: performanceMessage.color }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            {performanceMessage.text}
+          </motion.p>
+
+          {/* Stats */}
+          <div className="result-stats">
+            {[
+              { label: "Correct", val: score, color: "correct" },
+              { label: "Wrong", val: wrongCount, color: "wrong" },
+              { label: "Time", val: formatTime(time), color: "time" },
+              { label: "Total", val: questions.length, color: "total" }
+            ].map((stat, i) => (
+              <motion.div 
+                key={stat.label}
+                className={`result-stat result-stat-${stat.color}`}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.4 + (i * 0.1) }}
+              >
+                <span className="result-stat-num">{stat.val}</span>
+                <span className="result-stat-label">{stat.label}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="result-actions">
+            <motion.button 
+              className="result-btn result-btn-retry" 
+              onClick={() => window.location.reload()}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <RotateCcw size={18} />
+              Retake Quiz
+            </motion.button>
+            {attemptId && (
+              <motion.button
+                className="result-btn result-btn-review"
+                onClick={() => navigate(`/review/${user_id}/${attemptId}`)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Eye size={18} />
+                Review
+              </motion.button>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    );
       </>
     );
   }
@@ -220,13 +250,24 @@ function Ques() {
   return (
     <>
       <div className="ques-page">
-        <div className="ques-container">
+        <motion.div 
+          className="ques-container"
+          key={currentIndex}
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -20, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           {/* Progress Bar */}
           <div className="ques-progress-bar">
-            <div className="ques-progress-fill" style={{ width: `${progress}%` }}></div>
+            <motion.div 
+              className="ques-progress-fill" 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+            />
           </div>
 
-          {/* Header: Question count + Timer */}
+          {/* Header */}
           <div className="ques-header">
             <div className="ques-counter">
               <span className="ques-counter-current">{currentIndex + 1}</span>
@@ -234,10 +275,7 @@ function Ques() {
               <span className="ques-counter-total">{questions.length}</span>
             </div>
             <div className="ques-timer">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
+              <Timer size={16} />
               {formatTime(time)}
             </div>
           </div>
@@ -247,59 +285,67 @@ function Ques() {
 
           {/* Options */}
           <div className="ques-options">
-            {currentQ.options.map((option, idx) => {
-              let status = '';
-              if (selectedIndex === idx) status = 'selected';
-              if (submitted) {
-                if (option.is_correct) status = 'correct';
-                else if (selectedIndex === idx && !option.is_correct) status = 'wrong';
-              }
+            <AnimatePresence mode="popLayout">
+              {currentQ.options.map((option, idx) => {
+                let status = '';
+                if (selectedIndex === idx) status = 'selected';
+                if (submitted) {
+                  if (option.is_correct) status = 'correct';
+                  else if (selectedIndex === idx && !option.is_correct) status = 'wrong';
+                }
 
-              return (
-                <button
-                  key={idx}
-                  className={`ques-option ${status}`}
-                  onClick={() => !submitted && setSelectedIndex(idx)}
-                  disabled={submitted}
-                  id={`option-${idx}`}
-                >
-                  <span className="ques-option-label">{optionLabels[idx]}</span>
-                  <span className="ques-option-text">{option.text}</span>
-                  {submitted && option.is_correct && (
-                    <svg className="ques-option-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  )}
-                  {submitted && selectedIndex === idx && !option.is_correct && (
-                    <svg className="ques-option-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  )}
-                </button>
-              );
-            })}
+                return (
+                  <motion.button
+                    key={idx}
+                    className={`ques-option ${status}`}
+                    onClick={() => !submitted && setSelectedIndex(idx)}
+                    disabled={submitted}
+                    whileHover={!submitted ? { scale: 1.02, x: 5 } : {}}
+                    whileTap={!submitted ? { scale: 0.98 } : {}}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <span className="ques-option-label">{optionLabels[idx]}</span>
+                    <span className="ques-option-text">{option.text}</span>
+                    {submitted && option.is_correct && <CheckCircle2 className="ques-option-icon" size={20} />}
+                    {submitted && selectedIndex === idx && !option.is_correct && <XCircle className="ques-option-icon" size={20} />}
+                  </motion.button>
+                );
+              })}
+            </AnimatePresence>
           </div>
 
           {/* Action button */}
-          {!submitted ? (
-            <button
-              className="ques-submit-btn"
-              onClick={handleSubmit}
-              disabled={selectedIndex === null}
-              id="submit-answer"
-            >
-              Submit Answer
-            </button>
-          ) : (
-            <button className="ques-submit-btn ques-next-btn" onClick={handleNext} id="next-question">
-              {currentIndex + 1 === questions.length ? "See Results" : "Next Question"}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-              </svg>
-            </button>
-          )}
-        </div>
+          <motion.div 
+            className="ques-action-container"
+            layout
+          >
+            {!submitted ? (
+              <motion.button
+                className="ques-submit-btn"
+                onClick={handleSubmit}
+                disabled={selectedIndex === null}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Submit Answer
+              </motion.button>
+            ) : (
+              <motion.button 
+                className="ques-submit-btn ques-next-btn" 
+                onClick={handleNext}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {currentIndex + 1 === questions.length ? "See Results" : "Next Question"}
+                <ChevronRight size={20} />
+              </motion.button>
+            )}
+          </motion.div>
+        </motion.div>
       </div>
     </>
   );

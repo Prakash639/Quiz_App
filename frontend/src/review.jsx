@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle, XCircle, ChevronLeft, FileText, Info } from "lucide-react";
 import "./review.css";
 
 function Review() {
@@ -8,7 +10,7 @@ function Review() {
   const [groupedData, setGroupedData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/review/${user_id}/${attempt_id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/review/${user_id}/${attempt_id}`)
       .then((res) => res.json())
       .then((data) => {
         const raw = data.results;
@@ -52,25 +54,52 @@ function Review() {
   return (
     <>
       <div className="review-page">
-        <div className="review-header">
-          <h1 className="review-title">Quiz Review</h1>
-          <p className="review-subtitle">Review your answers below</p>
+        <motion.div 
+          className="review-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h1 className="review-title">Results Review</h1>
+          <p className="review-subtitle">Analyzing your performance for this session</p>
           <div className="review-summary-badges">
-            <span className="review-badge review-badge-correct">✓ {correctCount} Correct</span>
-            <span className="review-badge review-badge-wrong">✗ {wrongCount} Wrong</span>
-            <span className="review-badge review-badge-total">{groupedData.length} Questions</span>
+            <span className="review-badge review-badge-correct">
+              <CheckCircle size={14} style={{ marginRight: '6px' }} />
+              {correctCount} Correct
+            </span>
+            <span className="review-badge review-badge-wrong">
+              <XCircle size={14} style={{ marginRight: '6px' }} />
+              {wrongCount} Incorrect
+            </span>
+            <span className="review-badge review-badge-total">
+              <FileText size={14} style={{ marginRight: '6px' }} />
+              {groupedData.length} Total
+            </span>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="review-questions">
+        <motion.div 
+          className="review-questions"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: { transition: { staggerChildren: 0.1 } }
+          }}
+        >
           {groupedData.map((item, index) => {
             const isCorrect = item.selected_option === item.correct_option;
             return (
-              <div key={index} className={`review-card ${isCorrect ? 'review-card-correct' : 'review-card-wrong'}`} style={{ animationDelay: `${index * 0.06}s` }}>
+              <motion.div 
+                key={index} 
+                className={`review-card ${isCorrect ? 'review-card-correct' : 'review-card-wrong'}`}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+              >
                 <div className="review-card-header">
-                  <span className="review-q-num">Q{index + 1}</span>
+                  <span className="review-q-num">Question {index + 1}</span>
                   <span className={`review-status ${isCorrect ? 'correct' : 'wrong'}`}>
-                    {isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                    {isCorrect ? 'PERFECT' : 'INCORRECT'}
                   </span>
                 </div>
 
@@ -88,30 +117,35 @@ function Review() {
                     return (
                       <div key={i} className={optClass}>
                         <span className="review-opt-text">{option}</span>
-                        {optIsCorrect && (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                        )}
-                        {optIsSelected && !optIsCorrect && (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                          </svg>
-                        )}
+                        {optIsCorrect && <CheckCircle size={18} />}
+                        {optIsSelected && !optIsCorrect && <XCircle size={18} />}
                       </div>
                     );
                   })}
                 </div>
 
                 <div className="review-answer-summary">
-                  <p><span className="review-ans-label">Your Answer:</span> <span className={isCorrect ? 'text-success' : 'text-danger'}>{item.selected_option}</span></p>
-                  <p><span className="review-ans-label">Correct Answer:</span> <span className="text-success">{item.correct_option}</span></p>
+                  <div className="summary-row">
+                    <Info size={14} className="info-icon" />
+                    <p>
+                      <span className="review-ans-label">Your Answer:</span> 
+                      <span className={isCorrect ? 'text-success' : 'text-danger'}> {item.selected_option}</span>
+                    </p>
+                  </div>
+                  {!isCorrect && (
+                    <div className="summary-row">
+                      <CheckCircle size={14} className="success-icon" />
+                      <p>
+                        <span className="review-ans-label">Correct Answer:</span> 
+                        <span className="text-success"> {item.correct_option}</span>
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         <button className="review-home-btn" onClick={() => navigate("/home")}>
           ← Back to Home

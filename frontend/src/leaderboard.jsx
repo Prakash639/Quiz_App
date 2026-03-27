@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trophy, Medal, Search, ChevronDown, User } from "lucide-react";
 import "./leaderboard.css";
 
 
@@ -14,7 +16,7 @@ function Leaderboard() {
         const fetchLeaderboard = async () => {
             setLoading(true);
             try {
-                const response = await fetch("http://localhost:4000/leaderboard");
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard`);
                 if (!response.ok) throw new Error("Failed to fetch leaderboard");
                 const data = await response.json();
                 
@@ -71,7 +73,12 @@ function Leaderboard() {
             {showPodium && (
                 <div className="podium-container">
                     {/* 2nd Place */}
-                    <div className="podium-item second">
+                    <motion.div 
+                        className="podium-item second"
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
                         <div className="podium-card">
                             <div className="podium-rank-badge">2</div>
                             <div className="podium-avatar">{topThree[1]?.avatar}</div>
@@ -82,12 +89,19 @@ function Leaderboard() {
                                 <div className="podium-score-label">Points</div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* 1st Place */}
-                    <div className="podium-item first">
+                    <motion.div 
+                        className="podium-item first"
+                        initial={{ opacity: 0, y: 70 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                    >
                         <div className="podium-card">
-                            <div className="podium-rank-badge">1</div>
+                            <div className="podium-rank-badge">
+                                <Trophy size={24} />
+                            </div>
                             <div className="podium-avatar">{topThree[0]?.avatar}</div>
                             <h3 className="podium-name">{topThree[0]?.name}</h3>
                             <p className="podium-username">{topThree[0]?.username}</p>
@@ -96,10 +110,15 @@ function Leaderboard() {
                                 <div className="podium-score-label">Points</div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* 3rd Place */}
-                    <div className="podium-item third">
+                    <motion.div 
+                        className="podium-item third"
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                    >
                         <div className="podium-card">
                             <div className="podium-rank-badge">3</div>
                             <div className="podium-avatar">{topThree[2]?.avatar}</div>
@@ -110,31 +129,33 @@ function Leaderboard() {
                                 <div className="podium-score-label">Points</div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             )}
 
             {/* Controls: Search and Sort */}
             <div className="leaderboard-controls">
                 <div className="search-wrap">
-                    <span className="search-icon">🔍</span>
+                    <Search className="search-icon" size={20} />
                     <input
                         type="text"
-                        placeholder="Search users..."
+                        placeholder="Search top performers..."
                         className="search-input"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <select
-                    className="sort-select"
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                >
-                    <option value="score">Highest Score</option>
-                    <option value="percentage">Highest Percentage</option>
-                    <option value="completed">Quizzes Completed</option>
-                </select>
+                <div className="select-wrap">
+                    <select
+                        className="sort-select"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                    >
+                        <option value="score">Highest Score</option>
+                        <option value="percentage">Success Rate</option>
+                        <option value="completed">Total Quizzes</option>
+                    </select>
+                </div>
             </div>
 
             {/* Main Rankings Table */}
@@ -167,7 +188,13 @@ function Leaderboard() {
                             const isCurrentUser = user.id.toString() === currentUserId;
 
                             return (
-                                <tr key={user.id} className={isCurrentUser ? "my-rank-row" : ""}>
+                                <motion.tr 
+                                    key={user.id} 
+                                    className={isCurrentUser ? "my-rank-row" : ""}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: index * 0.05 }}
+                                >
                                     <td className="rank-td">
                                         #{actualRank}
                                         {isCurrentUser && <span className="my-rank-indicator">YOU</span>}
@@ -186,7 +213,7 @@ function Leaderboard() {
                                     <td>
                                         <span className="pct-badge">{user.percentage}%</span>
                                     </td>
-                                </tr>
+                                </motion.tr>
                             );
                         })}
                     </tbody>

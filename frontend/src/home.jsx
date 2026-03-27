@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import "./home.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 function Home() {
   const [types, setTypes] = useState([]);
@@ -12,7 +14,7 @@ function Home() {
 
   useEffect(() => {
     // Fetch quiz types from backend
-    fetch("http://localhost:4000/home")
+    fetch(`${import.meta.env.VITE_API_URL}/home`)
       .then((res) => res.json())
       .then((data) => setTypes(data.result)) // assuming backend sends { result: [...] }
       .catch((err) => console.error("Failed to fetch quiz types:", err));
@@ -55,32 +57,60 @@ function Home() {
 
       {/* Quiz Categories */}
       <main className="home-main">
-        <div className="home-grid">
-          {types.map((type, idx) => (
-            <div
-              className="quiz-card"
-              key={type.id}
-              style={{ '--card-accent': getCardAccent(idx), animationDelay: `${idx * 0.08}s` }}
-            >
-              <div className="quiz-card-accent"></div>
-              <div className="quiz-card-emoji">{getCategoryEmoji(type.name)}</div>
-              <h3 className="quiz-card-title">{type.name}</h3>
-              <p className="quiz-card-desc">
-                Practice questions and test your skills in <strong>{type.name}</strong>.
-              </p>
-              <Link to={`/quiz/${type.id}`} className="quiz-card-btn" id={`quiz-type-${type.id}`}>
-                Start Quiz
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-          ))}
-        </div>
+        <motion.div 
+          className="home-grid"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+        >
+          {types.map((type, idx) => {
+            const accent = getCardAccent(idx);
+            return (
+              <motion.div
+                className="quiz-card"
+                key={type.id}
+                variants={{
+                  hidden: { y: 20, opacity: 0 },
+                  visible: { y: 0, opacity: 1 }
+                }}
+                whileHover={{ scale: 1.02 }}
+                style={{ '--card-accent': accent }}
+              >
+                <div className="quiz-card-emoji">{getCategoryEmoji(type.name)}</div>
+                <div className="quiz-card-content">
+                  <h3 className="quiz-card-title">{type.name}</h3>
+                  <p className="quiz-card-desc">
+                    Practice questions and test your skills in <strong>{type.name}</strong>.
+                  </p>
+                </div>
+                <motion.div className="quiz-card-btn-wrap" whileTap={{ scale: 0.95 }}>
+                  <Link to={`/quiz/${type.id}`} className="quiz-card-btn" id={`quiz-type-${type.id}`}>
+                    Start Quiz
+                    <ArrowRight size={16} />
+                  </Link>
+                </motion.div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
         {types.length === 0 && (
           <div className="home-empty">
-            <div className="home-empty-icon">📋</div>
+            <motion.div 
+              className="home-empty-icon"
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              📋
+            </motion.div>
             <p>Loading quizzes...</p>
           </div>
         )}

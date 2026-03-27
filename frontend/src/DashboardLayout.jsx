@@ -1,7 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  LayoutDashboard, 
+  Gamepad2, 
+  Trophy, 
+  LogOut, 
+  Menu, 
+  X, 
+  Bell, 
+  ChevronRight, 
+  Calendar,
+  Sparkles
+} from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import "./profile.css"; // Reuse the professional styles
+import "./profile.css";
 
 function DashboardLayout() {
     const navigate = useNavigate();
@@ -22,7 +35,7 @@ function DashboardLayout() {
         } else if (storedId) {
             // Fetch the user's name from the backend profile API
             const token = localStorage.getItem("token");
-            fetch(`http://localhost:4000/profile/${storedId}`, {
+            fetch(`${import.meta.env.VITE_API_URL}/profile/${storedId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then(res => res.json())
@@ -52,42 +65,63 @@ function DashboardLayout() {
     return (
         <div className="dashboard-container">
             {/* Professional Sidebar */}
+            <AnimatePresence>
+                {isSidebarOpen && (
+                    <motion.div 
+                        className="sidebar-backdrop"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsSidebarOpen(false)}
+                    />
+                )}
+            </AnimatePresence>
+
             <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                <div className="sidebar-brand">
-                    <div className="brand-logo">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </div>
-                    <span>QuizMaster</span>
-                    <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>×</button>
-                </div>
+                        <div className="sidebar-brand">
+                            <div className="brand-logo">
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                >
+                                    <Sparkles size={24} color="var(--primary)" />
+                                </motion.div>
+                            </div>
+                            <span>QuizMaster</span>
+                            <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>
+                                <X size={24} />
+                            </button>
+                        </div>
+
 
                 <nav className="sidebar-nav">
                     <Link
                         to={userId ? `/profile/${userId}` : '/home'}
                         className={`sidebar-link ${isActive('/profile') ? 'active' : ''}`}
                     >
-                        <span className="sidebar-link-icon">📊</span>
+                        <LayoutDashboard size={20} className="sidebar-link-icon" />
                         <span>Dashboard</span>
                     </Link>
                     <Link to="/home" className={`sidebar-link ${isActive('/home') ? 'active' : ''}`}>
-                        <span className="sidebar-link-icon">🎮</span>
+                        <Gamepad2 size={20} className="sidebar-link-icon" />
                         <span>Explore Quizzes</span>
                     </Link>
                     <Link to="/leaderboard" className={`sidebar-link ${isActive('/leaderboard') ? 'active' : ''}`}>
-                        <span className="sidebar-link-icon">🥇</span>
+                        <Trophy size={20} className="sidebar-link-icon" />
                         <span>Leaderboard</span>
                     </Link>
                     <div className="sidebar-divider"></div>
                     <Link to="/logout" className="sidebar-link logout">
-                        <span className="sidebar-link-icon">🚪</span>
+                        <LogOut size={20} className="sidebar-link-icon" />
                         <span>Logout</span>
                     </Link>
                 </nav>
 
                 <div className="sidebar-footer">
-                    <div className="user-profile-sm">
+                    <motion.div 
+                        className="user-profile-sm"
+                        whileHover={{ backgroundColor: "rgba(0,0,0,0.05)" }}
+                    >
                         <div className="user-avatar-sm">
                             {userName ? userName.charAt(0).toUpperCase() : "U"}
                         </div>
@@ -95,7 +129,7 @@ function DashboardLayout() {
                             <p className="user-name-sm">{userName || "User"}</p>
                             <p className="user-status-sm">Free Member</p>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </aside>
 
@@ -104,32 +138,52 @@ function DashboardLayout() {
                 {/* Top Header */}
                 <header className="dashboard-header">
                     <div className="header-greeting">
-                        <button className="sidebar-toggle-btn" onClick={() => setIsSidebarOpen(true)}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
-                            </svg>
-                        </button>
+                        <motion.button 
+                            className="sidebar-toggle-btn" 
+                            onClick={() => setIsSidebarOpen(true)}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <Menu size={24} />
+                        </motion.button>
+
                         <div className="header-title-wrap">
-                            <h1>{isActive('/profile') ? `Welcome back, ${userName}! 👋` : 'Quiz Station'}</h1>
-                            <p>{isActive('/profile') ? "Here's what's happening." : "Sharpen your knowledge."}</p>
+                            <h1>{isActive('/profile') ? `Hi, ${userName}! 👋` : 'Quiz Station'}</h1>
+                            <div className="header-breadcrumb">
+                                <span>Dashboard</span>
+                                {location.pathname !== '/home' && (
+                                    <>
+                                        <ChevronRight size={14} />
+                                        <span>{location.pathname.split('/')[1].charAt(0).toUpperCase() + location.pathname.split('/')[1].slice(1)}</span>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="header-actions">
                         <ThemeToggle />
-                        <button className="header-notif-btn" title="Notifications">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                            </svg>
-                        </button>
+                        <motion.button 
+                            className="header-notif-btn" 
+                            title="Notifications"
+                            whileHover={{ rotate: 15 }}
+                        >
+                            <Bell size={20} />
+                        </motion.button>
                         <div className="header-date">
+                            <Calendar size={14} style={{ marginRight: '6px', opacity: 0.7 }} />
                             {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                         </div>
                     </div>
                 </header>
 
-                <div className="dashboard-scroll-content">
+                <motion.div 
+                    className="dashboard-scroll-content"
+                    key={location.pathname}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                >
                     <Outlet />
-                </div>
+                </motion.div>
             </main>
         </div>
     );

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './register.css';
 import { useNavigate, Link } from 'react-router-dom';
 
-function App() {
+function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +39,7 @@ function App() {
     if (!validate()) return;
 
     try {
-      const response = await fetch('http://localhost:4000/register', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -151,4 +151,4 @@ function App() {
   );
 }
 
-export default App;
+export default Register;

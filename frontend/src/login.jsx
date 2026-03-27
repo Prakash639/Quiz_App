@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 
-function App() {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:4000/login', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -44,7 +44,7 @@ function App() {
     localStorage.setItem("userName", data.userName || decoded.name || "User");
     
     const user_id = localStorage.getItem("userId");
-    navigate(`/profile/${user_id}`);
+    navigate("/home");
   };
 
 
@@ -119,4 +119,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;

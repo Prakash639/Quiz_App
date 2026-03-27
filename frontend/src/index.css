@@ -6,75 +6,63 @@
 
 /* ---------- Design Tokens ---------- */
 :root {
-  /* Primary palette */
-  --primary: #6C5CE7;
-  --primary-dark: #5A4BD1;
-  --primary-light: #A29BFE;
-  --primary-glow: rgba(108, 92, 231, 0.35);
+  /* Primary palette — More vibrant Duolingo/Kahoot style */
+  --primary: #58CC02; /* Duolingo Green */
+  --primary-dark: #46A302;
+  --primary-light: #84D8FF;
+  --primary-glow: rgba(88, 204, 2, 0.35);
 
-  /* Accent */
-  --accent: #A855F7;
-  --accent-dark: #9333EA;
-  --accent-light: #C084FC;
+  /* Accent — Vibrant Purple/Blue */
+  --accent: #1CB0F6;
+  --accent-dark: #1899D6;
+  --accent-light: #84D8FF;
 
   /* Semantic */
-  --success: #10B981;
-  --success-light: #D1FAE5;
-  --success-dark: #059669;
-  --danger: #F43F5E;
-  --danger-light: #FFE4E6;
-  --danger-dark: #E11D48;
-  --warning: #F59E0B;
-  --warning-light: #FEF3C7;
-  --info: #3B82F6;
+  --success: #58CC02;
+  --success-light: #D7FFB8;
+  --success-dark: #46A302;
+  --danger: #FF4B4B;
+  --danger-light: #FFDADC;
+  --danger-dark: #D33131;
+  --warning: #FFC800;
+  --warning-light: #FFF4D0;
+  --info: #1CB0F6;
 
   /* Neutrals */
-  --bg-body: #0F0E17;
-  --bg-surface: rgba(255, 255, 255, 0.06);
-  --bg-card: rgba(255, 255, 255, 0.08);
-  --bg-card-hover: rgba(255, 255, 255, 0.12);
-  --bg-input: rgba(255, 255, 255, 0.08);
-  --bg-input-focus: rgba(255, 255, 255, 0.12);
+  --bg-body: #FFFFFF;
+  --bg-surface: #F7F7F7;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F0F0F0;
+  --bg-input: #F7F7F7;
+  --bg-input-focus: #FFFFFF;
 
-  --text-primary: #FFFFFE;
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  --text-muted: rgba(255, 255, 255, 0.4);
+  --text-primary: #4B4B4B;
+  --text-secondary: #777777;
+  --text-muted: #AFAFAF;
   --text-on-primary: #FFFFFF;
-  --text-dark: #1A1A2E;
+  --text-dark: #4B4B4B;
 
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-color-hover: rgba(255, 255, 255, 0.2);
+  --border-color: #E5E5E5;
+  --border-color-hover: #CECECE;
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #6C5CE7 0%, #A855F7 100%);
-  --gradient-primary-hover: linear-gradient(135deg, #5A4BD1 0%, #9333EA 100%);
-  --gradient-bg: linear-gradient(135deg, #0F0E17 0%, #1A1A2E 30%, #16213E 60%, #0F0E17 100%);
-  --gradient-card: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%);
-  --gradient-success: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  --gradient-danger: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%);
-  --gradient-gold: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  /* Shadows — Soft but defined */
+  --shadow-sm: 0 2px 0px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 0px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 0px rgba(0, 0, 0, 0.1);
+  --shadow-primary: 0 4px 0px #46A302;
+  --shadow-accent: 0 4px 0px #1899D6;
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.35);
-  --shadow-primary: 0 8px 32px rgba(108, 92, 231, 0.3);
-  --shadow-primary-lg: 0 16px 48px rgba(108, 92, 231, 0.4);
-
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Radius — More rounded for "friendly" look */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 

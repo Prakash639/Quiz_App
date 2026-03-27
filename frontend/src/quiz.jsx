@@ -8,7 +8,7 @@ function Quiz() {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    fetch(`http://localhost:4000/quiz/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/quiz/${id}`)
       .then((res) => res.json())
       .then((data) => setTypes(data.result))
       .catch((err) => console.error("Failed to fetch quiz types:", err));

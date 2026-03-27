@@ -1,6 +1,6 @@
 const User = require('../models/model');
 const jwt = require("jsonwebtoken");
-const secret = "your_jwt_secret";
+const secret = process.env.JWT_SECRET || "your_jwt_secret";
 
 exports.sample = (req, res) =>{
     res.send("hello dsrt");
