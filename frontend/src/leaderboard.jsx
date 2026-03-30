@@ -5,10 +5,9 @@ import "./leaderboard.css";
 
 
 function Leaderboard() {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortBy, setSortBy] = useState("score");
     const [leaderboardData, setLeaderboardData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [timeframe, setTimeframe] = useState("all-time"); // today, weekly, all-time
     const [error, setError] = useState(null);
     const currentUserId = localStorage.getItem("userId");
 
@@ -16,7 +15,7 @@ function Leaderboard() {
         const fetchLeaderboard = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard?timeframe=${timeframe}`);
                 if (!response.ok) throw new Error("Failed to fetch leaderboard");
                 const data = await response.json();
                 
@@ -27,206 +26,198 @@ function Leaderboard() {
                     id: user.id,
                     name: user.name || "Anonymous",
                     username: `@${user.name?.toLowerCase().replace(/\s/g, "_") || "user" + user.id}`,
-                    completed: user.completed || 0,
                     score: user.total_score || 0,
-                    percentage: parseFloat(user.avg_percentage || 0).toFixed(1),
-                    avatar: ["👨‍💻", "👩‍🔬", "👨‍🎓", "👩‍🎨", "👨‍✈️", "👩‍⚕️", "👨‍🚒", "👩‍💼"][index % 8]
+                    accuracy: parseFloat(user.avg_accuracy || 0).toFixed(1),
+                    time: formatTime(user.total_time || 0),
+                    rawTime: user.total_time || 0,
+                    avatar: getInitials(user.name || "Anonymous")
                 }));
 
-                let filtered = formattedData.filter(user =>
-                    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    user.username.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-
-                filtered.sort((a, b) => {
-                    if (sortBy === "score") return b.score - a.score;
-                    if (sortBy === "percentage") return b.percentage - a.percentage;
-                    if (sortBy === "completed") return b.completed - a.completed;
-                    return 0;
-                });
-
-                setLeaderboardData(filtered);
+                setLeaderboardData(formattedData);
                 setError(null);
             } catch (err) {
                 console.error("Error fetching leaderboard:", err);
-                setError("Could not load leaderboard data. Please try again later.");
+                setError("Could not load leaderboard data.");
             } finally {
                 setLoading(false);
             }
         };
 
         fetchLeaderboard();
-    }, [searchTerm, sortBy]);
+    }, [timeframe]);
 
-    const showPodium = searchTerm === "" && leaderboardData.length >= 3;
-    const topThree = showPodium ? leaderboardData.slice(0, 3) : [];
-    const others = showPodium ? leaderboardData.slice(3) : leaderboardData;
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+    };
+
+    const getInitials = (name) => {
+        return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+    };
+
+    const getRankBadge = (rank) => {
+        if (rank === 1) return <span className="badge-gold">🥇</span>;
+        if (rank === 2) return <span className="badge-silver">🥈</span>;
+        if (rank === 3) return <span className="badge-bronze">🥉</span>;
+        return <span className="rank-number">#{rank}</span>;
+    };
+
+    const SkeletonRow = () => (
+        <tr className="skeleton-row">
+            <td><div className="skeleton skeleton-rank"></div></td>
+            <td>
+                <div className="skeleton-user">
+                    <div className="skeleton skeleton-avatar"></div>
+                    <div className="skeleton skeleton-text"></div>
+                </div>
+            </td>
+            <td><div className="skeleton skeleton-text"></div></td>
+            <td><div className="skeleton skeleton-text"></div></td>
+            <td><div className="skeleton skeleton-text"></div></td>
+        </tr>
+    );
 
     return (
         <div className="leaderboard-container">
-            <header className="leaderboard-header-section">
-                <h1 className="leaderboard-title">Global Leaderboard</h1>
-                <p className="leaderboard-subtitle">The top minds currently dominating the arena.</p>
-            </header>
+            <motion.header 
+                className="leaderboard-header"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+            >
+                <h1 className="leaderboard-title">Leaderboard</h1>
+                <p className="leaderboard-subtitle">Celebrate the top performers and their achievements.</p>
+            </motion.header>
 
-            {/* Podium for Top 3 */}
-            {showPodium && (
-                <div className="podium-container">
-                    {/* 2nd Place */}
-                    <motion.div 
-                        className="podium-item second"
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                    >
-                        <div className="podium-card">
-                            <div className="podium-rank-badge">2</div>
-                            <div className="podium-avatar">{topThree[1]?.avatar}</div>
-                            <h3 className="podium-name">{topThree[1]?.name}</h3>
-                            <p className="podium-username">{topThree[1]?.username}</p>
-                            <div className="podium-stats">
-                                <div className="podium-score">{topThree[1]?.score}</div>
-                                <div className="podium-score-label">Points</div>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* 1st Place */}
-                    <motion.div 
-                        className="podium-item first"
-                        initial={{ opacity: 0, y: 70 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                    >
-                        <div className="podium-card">
-                            <div className="podium-rank-badge">
-                                <Trophy size={24} />
-                            </div>
-                            <div className="podium-avatar">{topThree[0]?.avatar}</div>
-                            <h3 className="podium-name">{topThree[0]?.name}</h3>
-                            <p className="podium-username">{topThree[0]?.username}</p>
-                            <div className="podium-stats">
-                                <div className="podium-score">{topThree[0]?.score}</div>
-                                <div className="podium-score-label">Points</div>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* 3rd Place */}
-                    <motion.div 
-                        className="podium-item third"
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                    >
-                        <div className="podium-card">
-                            <div className="podium-rank-badge">3</div>
-                            <div className="podium-avatar">{topThree[2]?.avatar}</div>
-                            <h3 className="podium-name">{topThree[2]?.name}</h3>
-                            <p className="podium-username">{topThree[2]?.username}</p>
-                            <div className="podium-stats">
-                                <div className="podium-score">{topThree[2]?.score}</div>
-                                <div className="podium-score-label">Points</div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            )}
-
-            {/* Controls: Search and Sort */}
-            <div className="leaderboard-controls">
-                <div className="search-wrap">
-                    <Search className="search-icon" size={20} />
-                    <input
-                        type="text"
-                        placeholder="Search top performers..."
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                <div className="select-wrap">
-                    <select
-                        className="sort-select"
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                    >
-                        <option value="score">Highest Score</option>
-                        <option value="percentage">Success Rate</option>
-                        <option value="completed">Total Quizzes</option>
-                    </select>
-                </div>
-            </div>
-
-            {/* Main Rankings Table */}
-            <div className="leaderboard-table-container">
-                <table className="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>User</th>
-                            <th>Quizzes</th>
-                            <th>Score</th>
-                            <th>Avg %</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {loading ? (
-                            <tr>
-                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
-                                    <div className="loading-spinner">Loading leaderboard...</div>
-                                </td>
-                            </tr>
-                        ) : error ? (
-                            <tr>
-                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: '#ff4d4d' }}>
-                                    {error}
-                                </td>
-                            </tr>
-                        ) : (searchTerm !== "" ? leaderboardData : others).map((user, index) => {
-                            const actualRank = (searchTerm !== "" || !showPodium) ? index + 1 : index + 4;
-                            const isCurrentUser = user.id.toString() === currentUserId;
-
-                            return (
-                                <motion.tr 
-                                    key={user.id} 
-                                    className={isCurrentUser ? "my-rank-row" : ""}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                >
-                                    <td className="rank-td">
-                                        #{actualRank}
-                                        {isCurrentUser && <span className="my-rank-indicator">YOU</span>}
-                                    </td>
-                                    <td>
-                                        <div className="user-td">
-                                            <div className="user-avatar-sm">{user.avatar}</div>
-                                            <div className="user-name-info">
-                                                <h4>{user.name}</h4>
-                                                <span>{user.username}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{user.completed}</td>
-                                    <td className="score-td">{user.score.toLocaleString()}</td>
-                                    <td>
-                                        <span className="pct-badge">{user.percentage}%</span>
-                                    </td>
-                                </motion.tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-
-                {!loading && !error && leaderboardData.length === 0 && (
-                    <div className="empty-state-card" style={{ padding: '3rem' }}>
-                        <div className="empty-icon">🔎</div>
-                        <h3>No users found</h3>
-                        <p>Try adjusting your search to find other players.</p>
+            <div className="leaderboard-stats-row">
+                <div className="l-stat-card">
+                    <span className="l-stat-icon">👥</span>
+                    <div className="l-stat-info">
+                        <span className="l-stat-value">{leaderboardData.length}</span>
+                        <span className="l-stat-label">Active Players</span>
                     </div>
-                )}
+                </div>
+                <div className="l-stat-card">
+                    <span className="l-stat-icon">🏆</span>
+                    <div className="l-stat-info">
+                        <span className="l-stat-value">{leaderboardData[0]?.score || 0}</span>
+                        <span className="l-stat-label">Top Score</span>
+                    </div>
+                </div>
+                <div className="l-stat-card">
+                    <span className="l-stat-icon">✨</span>
+                    <div className="l-stat-info">
+                        <span className="l-stat-value">Weekly</span>
+                        <span className="l-stat-label">Reset Cycle</span>
+                    </div>
+                </div>
             </div>
+
+            <div className="leaderboard-tabs">
+                {["today", "weekly", "all-time"].map((t) => (
+                    <button 
+                        key={t}
+                        className={`tab-btn ${timeframe === t ? "active" : ""}`}
+                        onClick={() => setTimeframe(t)}
+                    >
+                        {t.replace("-", " ")}
+                    </button>
+                ))}
+            </div>
+
+            <div className="leaderboard-card">
+                <div className="l-table-wrapper">
+                    <table className="l-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>User</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <>
+                                    <SkeletonRow />
+                                    <SkeletonRow />
+                                    <SkeletonRow />
+                                    <SkeletonRow />
+                                    <SkeletonRow />
+                                </>
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan="3" className="error-cell">{error}</td>
+                                </tr>
+                            ) : leaderboardData.length === 0 ? (
+                                <tr>
+                                    <td colSpan="3" className="empty-cell">No data available for this period.</td>
+                                </tr>
+                            ) : leaderboardData.map((user, index) => {
+                                const rank = index + 1;
+                                const isCurrentUser = user.id.toString() === currentUserId;
+                                const maxScore = Math.max(...leaderboardData.map(u => u.score)) || 100;
+                                const progress = (user.score / maxScore) * 100;
+
+                                return (
+                                    <motion.tr 
+                                        key={user.id} 
+                                        className={`l-row ${isCurrentUser ? "is-me" : ""} ${rank <= 3 ? `top-${rank}` : ""}`}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.05 }}
+                                    >
+                                        <td className="u-rank-cell">
+                                            {getRankBadge(rank)}
+                                        </td>
+                                        <td>
+                                            <div className="u-info-cell">
+                                                <div className="u-avatar-init">{user.avatar}</div>
+                                                <div className="u-name-info">
+                                                    <div className="u-name">{user.name}</div>
+                                                    <div className="u-username-sm">{user.username}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="u-score-cell">
+                                            <div className="score-val">{user.score.toLocaleString()}</div>
+                                            <div className="score-progress-bg">
+                                                <motion.div 
+                                                    className="score-progress-fill" 
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${progress}%` }}
+                                                    transition={{ duration: 1, ease: "easeOut" }}
+                                                />
+                                            </div>
+                                        </td>
+                                    </motion.tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <motion.div 
+                className="leaderboard-info-section"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+            >
+                <h3>How it works 🚀</h3>
+                <div className="info-grid">
+                    <div className="info-item">
+                        <div className="info-dot"></div>
+                        <p><strong>Climb the Ranks:</strong> Earn points by completing quizzes with high accuracy and speed.</p>
+                    </div>
+                    <div className="info-item">
+                        <div className="info-dot"></div>
+                        <p><strong>Stay Consistent:</strong> The leaderboard updates in real-time as you complete new challenges.</p>
+                    </div>
+                    <div className="info-item">
+                        <div className="info-dot"></div>
+                        <p><strong>Timed Resets:</strong> Weekly rankings reset every Monday at 00:00 UTC. Aim for the top spot!</p>
+                    </div>
+                </div>
+            </motion.div>
         </div>
     );
 }

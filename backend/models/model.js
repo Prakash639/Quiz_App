@@ -73,7 +73,14 @@ review: (data, callback) => {
     db.query(sql,data, callback);
   },
 
-  getLeaderboard: (callback) => {
+  getLeaderboard: (timeframe, callback) => {
+    let whereClause = "";
+    if (timeframe === "today") {
+      whereClause = "WHERE r.created_at >= CURDATE()";
+    } else if (timeframe === "weekly") {
+      whereClause = "WHERE r.created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+    }
+
     const sql = `
       SELECT 
         u.id, 
@@ -81,9 +88,11 @@ review: (data, callback) => {
         u.email,
         COUNT(r.id) as completed, 
         SUM(r.correct_ans) as total_score, 
-        AVG(r.percentage) as avg_percentage
+        AVG(r.percentage) as avg_accuracy,
+        SUM(r.time) as total_time
       FROM users u
       LEFT JOIN result r ON u.id = r.user_id
+      ${whereClause}
       GROUP BY u.id
       ORDER BY total_score DESC
     `;

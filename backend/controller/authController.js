@@ -45,7 +45,8 @@ exports.login = (req, res) => {
 };
 
 exports.getLeaderboard = (req, res) => {
-  User.getLeaderboard((err, results) => {
+  const { timeframe } = req.query; // today, weekly, all-time
+  User.getLeaderboard(timeframe, (err, results) => {
     if (err) {
       return res.status(500).json({ error: "Failed to fetch leaderboard data" });
     }

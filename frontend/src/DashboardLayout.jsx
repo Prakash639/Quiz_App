@@ -13,7 +13,6 @@ import {
   Calendar,
   Sparkles
 } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 import "./profile.css";
 
 function DashboardLayout() {
@@ -64,7 +63,7 @@ function DashboardLayout() {
 
     return (
         <div className="dashboard-container">
-            {/* Professional Sidebar */}
+            {/* Professional Sidebar Backdrop */}
             <AnimatePresence>
                 {isSidebarOpen && (
                     <motion.div 
@@ -78,21 +77,20 @@ function DashboardLayout() {
             </AnimatePresence>
 
             <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                        <div className="sidebar-brand">
-                            <div className="brand-logo">
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                >
-                                    <Sparkles size={24} color="var(--primary)" />
-                                </motion.div>
-                            </div>
-                            <span>QuizMaster</span>
-                            <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>
-                                <X size={24} />
-                            </button>
-                        </div>
-
+                <div className="sidebar-brand">
+                    <div className="brand-logo">
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        >
+                            <Sparkles size={24} />
+                        </motion.div>
+                    </div>
+                    <span className="brand-name">QuizMaster</span>
+                    <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>
+                        <X size={24} />
+                    </button>
+                </div>
 
                 <nav className="sidebar-nav">
                     <Link
@@ -137,30 +135,35 @@ function DashboardLayout() {
             <main className="dashboard-main">
                 {/* Top Header */}
                 <header className="dashboard-header">
-                    <div className="header-greeting">
+                    <div className="header-left">
                         <motion.button 
                             className="sidebar-toggle-btn" 
                             onClick={() => setIsSidebarOpen(true)}
                             whileTap={{ scale: 0.9 }}
+                            aria-label="Toggle Sidebar"
                         >
                             <Menu size={24} />
                         </motion.button>
 
-                        <div className="header-title-wrap">
-                            <h1>{isActive('/profile') ? `Hi, ${userName}! 👋` : 'Quiz Station'}</h1>
+                        <div className="header-title-container">
+                            <h1 className="header-title">
+                                {isActive('/profile') ? `Hi, ${userName.split(' ')[0]}! 👋` : 'Quiz Station'}
+                            </h1>
                             <div className="header-breadcrumb">
                                 <span>Dashboard</span>
                                 {location.pathname !== '/home' && (
                                     <>
-                                        <ChevronRight size={14} />
-                                        <span>{location.pathname.split('/')[1].charAt(0).toUpperCase() + location.pathname.split('/')[1].slice(1)}</span>
+                                        <ChevronRight size={14} className="breadcrumb-sep" />
+                                        <span className="breadcrumb-current">
+                                            {location.pathname.split('/')[1].charAt(0).toUpperCase() + location.pathname.split('/')[1].slice(1)}
+                                        </span>
                                     </>
                                 )}
                             </div>
                         </div>
                     </div>
+
                     <div className="header-actions">
-                        <ThemeToggle />
                         <motion.button 
                             className="header-notif-btn" 
                             title="Notifications"

@@ -137,8 +137,6 @@ function Ques() {
     const offset = circumference - (percentage / 100) * circumference;
 
     return (
-      <>
-    return (
       <div className="result-page">
         <motion.div 
           className="result-container"
@@ -149,7 +147,7 @@ function Ques() {
           {/* Score Ring */}
           <div className="result-ring-wrapper">
             <svg className="result-ring" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="54" fill="none" stroke="#E5E5E5" strokeWidth="8" />
+              <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(0,0,0,0.04)" strokeWidth="8" />
               <motion.circle
                 cx="60" cy="60" r="54" fill="none"
                 stroke={performanceMessage.color}
@@ -196,10 +194,10 @@ function Ques() {
           {/* Stats */}
           <div className="result-stats">
             {[
-              { label: "Correct", val: score, color: "correct" },
-              { label: "Wrong", val: wrongCount, color: "wrong" },
-              { label: "Time", val: formatTime(time), color: "time" },
-              { label: "Total", val: questions.length, color: "total" }
+              { label: "Correct", val: score, color: "correct", icon: <CheckCircle2 size={18} /> },
+              { label: "Wrong", val: wrongCount, color: "wrong", icon: <XCircle size={18} /> },
+              { label: "Time", val: formatTime(time), color: "time", icon: <Timer size={18} /> },
+              { label: "Total", val: questions.length, color: "total", icon: <Trophy size={18} /> }
             ].map((stat, i) => (
               <motion.div 
                 key={stat.label}
@@ -208,11 +206,13 @@ function Ques() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.4 + (i * 0.1) }}
               >
+                <div className="result-stat-icon-wrap">{stat.icon}</div>
                 <span className="result-stat-num">{stat.val}</span>
                 <span className="result-stat-label">{stat.label}</span>
               </motion.div>
             ))}
           </div>
+
 
           {/* Actions */}
           <div className="result-actions">
@@ -240,9 +240,8 @@ function Ques() {
         </motion.div>
       </div>
     );
-      </>
-    );
   }
+
 
   // ========== QUESTION SCREEN ==========
   const progress = ((currentIndex + 1) / questions.length) * 100;
